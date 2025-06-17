@@ -1,0 +1,13 @@
+/* 主题切换图标 */
+.theme-toggle i {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.theme-toggle i.fa-moon:before {
+    content: "\f186";
+}
+
+.theme-toggle i.fa-sun:before {
+    content: "\f185";
+} 

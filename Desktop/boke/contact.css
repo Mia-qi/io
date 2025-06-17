@@ -1,0 +1,154 @@
+/* 联系页面样式 */
+.contact-hero {
+    position: relative;
+    background: var(--cyber-black);
+    padding: 8rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+.contact-hero h1 {
+    font-size: 3.5rem;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-content {
+    padding: 4rem 0;
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.info-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.1);
+}
+
+.info-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.contact-form-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 3rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.form-group {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--neon-blue);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+}
+
+.form-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+    transition: width 0.3s ease;
+}
+
+.form-group input:focus ~ .form-border,
+.form-group textarea:focus ~ .form-border {
+    width: 100%;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.button-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--neon-blue);
+    border-radius: 6px;
+    animation: borderGlow 2s linear infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px var(--neon-blue);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--neon-blue);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 968px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .contact-form-container {
+        padding: 2rem;
+    }
+} 

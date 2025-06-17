@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表 - 我的博客</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: #fff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #fff;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            top: 15px;
+            padding: 6px 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .theme-toggle:hover {
+            background: #357abd;
+        }
+
+        /* 文章列表样式 */
+        .articles-section {
+            margin-top: 120px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .articles-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .articles-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .articles-header p {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .article-card {
+            background: var(--bg-color);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover .article-image {
+            transform: scale(1.05);
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .article-content p {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .article-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .read-more:hover {
+            background: #357abd;
+            transform: translateX(5px);
+        }
+
+        /* 分类筛选 */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-color);
+            opacity: 0.5;
+        }
+
+        /* 搜索建议和搜索历史样式 */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: 0 0 10px 10px;
+            box-shadow: var(--shadow);
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .suggestion-item:hover {
+            background: var(--bg-color);
+        }
+
+        .suggestion-item .suggestion-text {
+            flex: 1;
+        }
+
+        .suggestion-item .suggestion-category {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            margin-left: 10px;
+        }
+
+        .suggestion-item .remove-history {
+            color: var(--text-color);
+            opacity: 0.5;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .suggestion-item .remove-history:hover {
+            opacity: 1;
+            color: #ff4444;
+        }
+
+        /* 高级搜索选项样式 */
+        .advanced-search {
+            margin-top: 10px;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .advanced-search.active {
+            display: block;
+        }
+
+        .advanced-search-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .search-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .search-option label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .advanced-search-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .advanced-search-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .apply-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .apply-btn:hover {
+            background: #357abd;
+        }
+
+        .reset-btn {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .reset-btn:hover {
+            background: #e0e0e0;
+        }
+
+        /* 搜索结果高亮样式 */
+        .highlight {
+            background: rgba(74, 144, 226, 0.2);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        /* 搜索统计信息 */
+        .search-stats {
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-color);
+            display: none;
+        }
+
+        .no-results.active {
+            display: block;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+
+            .theme-toggle {
+                right: 15px;
+                top: 12px;
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .articles-section {
+                margin-top: 100px;
+                padding: 20px;
+            }
+
+            .articles-header h1 {
+                font-size: 2rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-filter {
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">我的博客</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="articles.html" class="active">文章</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="contact.html">联系</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <div class="articles-section">
+            <div class="articles-header">
+                <h1>文章列表</h1>
+                <p>探索技术世界的精彩内容</p>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索文章...">
+                <i class="fas fa-search"></i>
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+
+            <div class="advanced-search" id="advancedSearch">
+                <div class="advanced-search-options">
+                    <div class="search-option">
+                        <input type="checkbox" id="searchTitle" checked>
+                        <label for="searchTitle">标题</label>
+                    </div>
+                    <div class="search-option">
+                        <input type="checkbox" id="searchDescription" checked>
+                        <label for="searchDescription">描述</label>
+                    </div>
+                    <div class="search-option">
+                        <input type="checkbox" id="searchTags" checked>
+                        <label for="searchTags">标签</label>
+                    </div>
+                    <div class="search-option">
+                        <input type="checkbox" id="searchCategory" checked>
+                        <label for="searchCategory">分类</label>
+                    </div>
+                </div>
+                <div class="advanced-search-buttons">
+                    <button class="advanced-search-btn reset-btn" id="resetSearch">重置</button>
+                    <button class="advanced-search-btn apply-btn" id="applySearch">应用</button>
+                </div>
+            </div>
+
+            <div class="search-stats" id="searchStats"></div>
+
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="javascript">JavaScript</button>
+                <button class="filter-btn" data-category="web">Web开发</button>
+                <button class="filter-btn" data-category="ai">人工智能</button>
+                <button class="filter-btn" data-category="tech">技术趋势</button>
+            </div>
+
+            <div class="articles-grid" id="articlesGrid">
+                <!-- 文章卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i> 加载中...
+            </div>
+
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <p>没有找到相关文章</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 文章数据
+        const articles = [
+            {
+                id: 1,
+                title: "JavaScript 事件",
+                description: "深入理解JavaScript事件机制，掌握事件处理的核心概念和实践应用。",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                date: "2024-03-20",
+                category: "javascript",
+                readTime: "8分钟",
+                tags: ["JavaScript", "事件", "前端"],
+                link: "javascript-events.html"
+            },
+            {
+                id: 2,
+                title: "JavaScript作用域注意点",
+                description: "详解JavaScript作用域的概念，以及如何正确使用作用域来组织代码。",
+                image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                date: "2024-03-20",
+                category: "javascript",
+                readTime: "5分钟",
+                tags: ["JavaScript", "作用域", "前端"],
+                link: "javascript-scope.html"
+            },
+            {
+                id: 3,
+                title: "Web开发",
+                description: "探索现代Web开发技术，包括前端框架、后端开发和全栈实践。",
+                image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                date: "2024-03-19",
+                category: "web",
+                readTime: "10分钟",
+                tags: ["Web开发", "全栈", "技术"],
+                link: "articles.html"
+            },
+            {
+                id: 4,
+                title: "人工智能",
+                description: "深入了解AI和机器学习的最新进展，从基础概念到实际应用。",
+                image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                date: "2024-03-18",
+                category: "ai",
+                readTime: "12分钟",
+                tags: ["AI", "机器学习", "技术"],
+                link: "articles.html"
+            },
+            {
+                id: 5,
+                title: "技术趋势",
+                description: "关注最新的技术发展趋势，把握行业发展方向。",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                date: "2024-03-17",
+                category: "tech",
+                readTime: "6分钟",
+                tags: ["技术", "趋势", "发展"],
+                link: "articles.html"
+            }
+        ];
+
+        // 渲染文章卡片
+        function renderArticles(articlesToRender) {
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = articlesToRender.map(article => `
+                <article class="article-card" data-category="${article.category}">
+                    <img src="${article.image}" alt="${article.title}" class="article-image">
+                    <div class="article-content">
+                        <h3>${article.title}</h3>
+                        <p>${article.description}</p>
+                        <div class="article-meta">
+                            <span class="date">${article.date}</span>
+                            <span class="category">${article.category.toUpperCase()}</span>
+                            <span class="read-time">${article.readTime}</span>
+                        </div>
+                        <div class="article-tags">
+                            ${article.tags.map(tag => `<span class="article-tag">${tag}</span>`).join('')}
+                        </div>
+                        <a href="${article.link}" class="read-more">阅读更多</a>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // 初始化渲染
+        renderArticles(articles);
+
+        // 主题切换
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // 更新主题切换按钮图标
+            const themeIcon = document.querySelector('.theme-toggle i');
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.setAttribute('data-theme', savedTheme);
+            const themeIcon = document.querySelector('.theme-toggle i');
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // 分类筛选功能
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                const filteredArticles = category === 'all' 
+                    ? articles 
+                    : articles.filter(article => article.category === category);
+                
+                renderArticles(filteredArticles);
+            });
+        });
+
+        // 搜索功能增强
+        const searchInput = document.getElementById('searchInput');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+        const advancedSearch = document.getElementById('advancedSearch');
+        const searchStats = document.getElementById('searchStats');
+        let searchTimeout;
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+        const MAX_HISTORY_ITEMS = 5;
+
+        // 显示搜索建议
+        function showSuggestions(searchTerm) {
+            if (!searchTerm) {
+                // 显示搜索历史
+                searchSuggestions.innerHTML = searchHistory.map(item => `
+                    <div class="suggestion-item" data-term="${item.term}">
+                        <span class="suggestion-text">
+                            <i class="fas fa-history"></i> ${item.term}
+                        </span>
+                        <span class="remove-history">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </div>
+                `).join('');
+            } else {
+                // 显示搜索建议
+                const suggestions = articles.filter(article => 
+                    article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    article.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+                ).slice(0, 5);
+
+                searchSuggestions.innerHTML = suggestions.map(article => `
+                    <div class="suggestion-item" data-term="${article.title}">
+                        <span class="suggestion-text">${article.title}</span>
+                        <span class="suggestion-category">${article.category}</span>
+                    </div>
+                `).join('');
+            }
+            searchSuggestions.classList.add('active');
+        }
+
+        // 高亮搜索结果
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        // 执行搜索
+        function performSearch(searchTerm) {
+            const searchTitle = document.getElementById('searchTitle').checked;
+            const searchDescription = document.getElementById('searchDescription').checked;
+            const searchTags = document.getElementById('searchTags').checked;
+            const searchCategory = document.getElementById('searchCategory').checked;
+
+            const filteredArticles = articles.filter(article => {
+                let match = false;
+                if (searchTitle && article.title.toLowerCase().includes(searchTerm.toLowerCase())) match = true;
+                if (searchDescription && article.description.toLowerCase().includes(searchTerm.toLowerCase())) match = true;
+                if (searchTags && article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))) match = true;
+                if (searchCategory && article.category.toLowerCase().includes(searchTerm.toLowerCase())) match = true;
+                return match;
+            });
+
+            // 更新文章显示
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = filteredArticles.map(article => `
+                <article class="article-card" data-category="${article.category}">
+                    <img src="${article.image}" alt="${article.title}" class="article-image">
+                    <div class="article-content">
+                        <h3>${highlightText(article.title, searchTerm)}</h3>
+                        <p>${highlightText(article.description, searchTerm)}</p>
+                        <div class="article-meta">
+                            <span class="date">${article.date}</span>
+                            <span class="category">${article.category.toUpperCase()}</span>
+                            <span class="read-time">${article.readTime}</span>
+                        </div>
+                        <div class="article-tags">
+                            ${article.tags.map(tag => 
+                                `<span class="article-tag">${highlightText(tag, searchTerm)}</span>`
+                            ).join('')}
+                        </div>
+                        <a href="${article.link}" class="read-more">阅读更多</a>
+                    </div>
+                </article>
+            `).join('');
+
+            // 更新搜索统计
+            searchStats.textContent = `找到 ${filteredArticles.length} 个结果`;
+
+            // 显示/隐藏无结果提示
+            const noResults = document.querySelector('.no-results');
+            noResults.classList.toggle('active', filteredArticles.length === 0);
+
+            // 添加到搜索历史
+            if (searchTerm) {
+                addToSearchHistory(searchTerm);
+            }
+        }
+
+        // 添加到搜索历史
+        function addToSearchHistory(term) {
+            searchHistory = searchHistory.filter(item => item.term !== term);
+            searchHistory.unshift({ term, timestamp: Date.now() });
+            if (searchHistory.length > MAX_HISTORY_ITEMS) {
+                searchHistory.pop();
+            }
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        }
+
+        // 搜索输入事件处理
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const searchTerm = e.target.value;
+            
+            if (searchTerm) {
+                showSuggestions(searchTerm);
+            } else {
+                showSuggestions('');
+            }
+
+            searchTimeout = setTimeout(() => {
+                performSearch(searchTerm);
+            }, 300);
+        });
+
+        // 搜索建议点击事件
+        searchSuggestions.addEventListener('click', (e) => {
+            const suggestionItem = e.target.closest('.suggestion-item');
+            if (!suggestionItem) return;
+
+            if (e.target.closest('.remove-history')) {
+                // 删除历史记录
+                const term = suggestionItem.dataset.term;
+                searchHistory = searchHistory.filter(item => item.term !== term);
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+                showSuggestions('');
+            } else {
+                // 选择搜索建议
+                const term = suggestionItem.dataset.term;
+                searchInput.value = term;
+                performSearch(term);
+                searchSuggestions.classList.remove('active');
+            }
+        });
+
+        // 点击外部关闭搜索建议
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-box')) {
+                searchSuggestions.classList.remove('active');
+            }
+        });
+
+        // 高级搜索按钮点击事件
+        document.getElementById('applySearch').addEventListener('click', () => {
+            performSearch(searchInput.value);
+            advancedSearch.classList.remove('active');
+        });
+
+        document.getElementById('resetSearch').addEventListener('click', () => {
+            document.querySelectorAll('.search-option input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            performSearch(searchInput.value);
+        });
+
+        // 显示/隐藏高级搜索
+        searchInput.addEventListener('focus', () => {
+            if (searchInput.value) {
+                advancedSearch.classList.add('active');
+            }
+        });
+
+        // 添加滚动动画
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 为所有文章卡片添加动画
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+
+        // 添加页面加载动画
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html> 

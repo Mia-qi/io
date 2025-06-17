@@ -1,0 +1,94 @@
+/* 基础变量 */
+:root {
+    --neon-blue: #00f3ff;
+    --neon-purple: #7700ff;
+    --cyber-black: #0a0a0a;
+    --grid-color: rgba(0, 243, 255, 0.1);
+    /* 暗色主题（默认） */
+    --bg-color: #0a0a0a;
+    --text-color: #fff;
+    --text-secondary: #999;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(0, 243, 255, 0.2);
+    --hover-color: rgba(0, 243, 255, 0.1);
+    --shadow-color: rgba(0, 243, 255, 0.1);
+    --code-bg: rgba(0, 0, 0, 0.3);
+    --table-header: rgba(0, 243, 255, 0.1);
+    --table-border: rgba(0, 243, 255, 0.2);
+    /* 暗色主题（默认） */
+    --hero-bg: rgba(0, 0, 0, 0.7);
+    --hero-text: #fff;
+    --hero-subtext: rgba(255, 255, 255, 0.8);
+    --cyber-grid-color: rgba(0, 243, 255, 0.1);
+    --cyber-grid-line: rgba(0, 243, 255, 0.2);
+}
+
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #333;
+    --text-secondary: #666;
+    --card-bg: rgba(0, 0, 0, 0.05);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --hover-color: rgba(0, 0, 0, 0.05);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --code-bg: rgba(0, 0, 0, 0.05);
+    --table-header: rgba(0, 0, 0, 0.05);
+    --table-border: rgba(0, 0, 0, 0.1);
+    /* 亮色主题 */
+    --hero-bg: rgba(255, 255, 255, 0.9);
+    --hero-text: #333;
+    --hero-subtext: rgba(0, 0, 0, 0.8);
+    --cyber-grid-color: rgba(0, 0, 0, 0.05);
+    --cyber-grid-line: rgba(0, 0, 0, 0.1);
+}
+
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 通用容器 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* 通用动画 */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 10px var(--shadow-color);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--shadow-color);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 243, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 243, 255, 0);
+    }
+}
+
+/* 响应式基础样式 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+} 

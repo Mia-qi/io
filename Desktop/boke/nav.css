@@ -1,0 +1,186 @@
+/* 导航栏样式 */
+header {
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 主题切换按钮样式 */
+.theme-toggle {
+    position: relative;
+    margin-left: 20px;
+    padding: 6px 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: #357abd;
+}
+
+/* 移动端菜单按钮 */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--text-color);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    nav {
+        padding: 0 15px;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+
+    .nav-links a {
+        font-size: 0.95rem;
+        padding: 6px 12px;
+    }
+
+    .theme-toggle {
+        margin-left: 15px;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0 15px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--card-bg);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        transition: right 0.3s ease;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        padding: 60px 0;
+        z-index: 1001;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links a {
+        font-size: 1.1rem;
+        padding: 10px 20px;
+        width: 80%;
+        text-align: center;
+    }
+
+    .theme-toggle {
+        position: fixed;
+        top: 15px;
+        right: 70px;
+        margin: 0;
+    }
+
+    /* 菜单按钮动画 */
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        width: 100%;
+    }
+
+    .logo a {
+        font-size: 1.3rem;
+    }
+
+    .nav-links a {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+
+    .theme-toggle {
+        right: 60px;
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+} 

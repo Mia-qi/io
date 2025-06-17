@@ -1,0 +1,180 @@
+/* 关于页面样式 */
+.about-hero {
+    position: relative;
+    background: var(--cyber-black);
+    padding: 6rem 2rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+.profile-container {
+    position: relative;
+    z-index: 2;
+}
+
+.profile-image {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+.profile-frame {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid var(--neon-blue);
+    border-radius: 50%;
+    animation: rotate 10s linear infinite;
+}
+
+.profile-title {
+    color: var(--neon-blue);
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    letter-spacing: 2px;
+}
+
+.about-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.about-section, .skills-section, .experience-section, .contact-section {
+    margin-bottom: 4rem;
+}
+
+.section-line {
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+    margin: 1rem 0;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.skill-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.skill-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.skill-progress {
+    height: 4px;
+    background: rgba(0, 243, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 1rem;
+    width: 0;
+    transition: width 1.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+}
+
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--neon-blue);
+}
+
+.timeline-item {
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -6px;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+.timeline-date {
+    color: var(--neon-blue);
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 4rem 1rem;
+    }
+    
+    .profile-image {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .timeline::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .timeline-item {
+        padding-left: 0;
+        padding-top: 2rem;
+        text-align: center;
+    }
+    
+    .timeline-dot {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+} 

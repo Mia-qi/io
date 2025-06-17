@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript事件 - 我的博客</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: #fff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #fff;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            top: 15px;
+            padding: 6px 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .theme-toggle:hover {
+            background: #357abd;
+        }
+
+        .article-detail {
+            margin-top: 80px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">我的博客</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="articles.html">文章</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="contact.html">联系</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="切换主题">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <main>
+        <article class="article-detail">
+            <div class="article-header">
+                <h1>JavaScript 事件</h1>
+                <div class="article-meta">
+                    <span class="date">2024-03-20</span>
+                    <span class="category">JavaScript</span>
+                    <span class="read-time">阅读时间：8分钟</span>
+                </div>
+            </div>
+
+            <div class="article-content">
+                <section class="content-section">
+                    <h2>什么是 HTML 事件？</h2>
+                    <p>HTML 事件是发生在 HTML 元素上的事情。当在 HTML 页面中使用 JavaScript 时，JavaScript 可以触发这些事件。</p>
+                    <p>HTML 事件可以是浏览器行为，也可以是用户行为。例如：</p>
+                    <ul class="feature-list">
+                        <li>HTML 页面完成加载</li>
+                        <li>HTML input 字段改变时</li>
+                        <li>HTML 按钮被点击</li>
+                    </ul>
+                </section>
+
+                <section class="content-section">
+                    <h2>事件属性语法</h2>
+                    <p>HTML 元素中可以添加事件属性，使用 JavaScript 代码来添加 HTML 元素。</p>
+                    <div class="code-block">
+                        <pre><code>// 单引号
+&lt;some-HTML-element some-event='JavaScript 代码'&gt;
+
+// 双引号
+&lt;some-HTML-element some-event="JavaScript 代码"&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>事件示例</h2>
+                    <div class="example-block">
+                        <h3>示例 1：修改元素内容</h3>
+                        <div class="code-block">
+                            <pre><code>&lt;button onclick="getElementById('demo').innerHTML=Date()"&gt;
+    现在的时间是?
+&lt;/button&gt;</code></pre>
+                        </div>
+                        <p>以上实例中，JavaScript 代码将修改 id="demo" 元素的内容。</p>
+                    </div>
+
+                    <div class="example-block">
+                        <h3>示例 2：修改自身元素</h3>
+                        <div class="code-block">
+                            <pre><code>&lt;button onclick="this.innerHTML=Date()"&gt;
+    现在的时间是?
+&lt;/button&gt;</code></pre>
+                        </div>
+                        <p>在这个实例中，代码将修改按钮自身元素的内容。</p>
+                    </div>
+
+                    <div class="example-block">
+                        <h3>示例 3：调用函数</h3>
+                        <div class="code-block">
+                            <pre><code>&lt;button onclick="displayDate()"&gt;
+    现在的时间是?
+&lt;/button&gt;</code></pre>
+                        </div>
+                        <p>JavaScript 代码通常是几行代码，比较常见的是通过事件属性来调用函数。</p>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>常见的 HTML 事件</h2>
+                    <div class="table-container">
+                        <table class="event-table">
+                            <thead>
+                                <tr>
+                                    <th>事件</th>
+                                    <th>描述</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>onchange</td>
+                                    <td>HTML 元素改变</td>
+                                </tr>
+                                <tr>
+                                    <td>onclick</td>
+                                    <td>用户点击 HTML 元素</td>
+                                </tr>
+                                <tr>
+                                    <td>onmouseover</td>
+                                    <td>鼠标指针移动到指定的元素上时发生</td>
+                                </tr>
+                                <tr>
+                                    <td>onmouseout</td>
+                                    <td>用户从一个 HTML 元素上移开鼠标时发生</td>
+                                </tr>
+                                <tr>
+                                    <td>onkeydown</td>
+                                    <td>用户按下键盘按键</td>
+                                </tr>
+                                <tr>
+                                    <td>onload</td>
+                                    <td>浏览器已完成页面的加载</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>JavaScript 事件的应用</h2>
+                    <p>事件可以用于处理：</p>
+                    <ul class="feature-list">
+                        <li>表单验证</li>
+                        <li>用户输入</li>
+                        <li>用户行为</li>
+                        <li>浏览器动作</li>
+                    </ul>
+                    <div class="note">
+                        <p>可以使用多种方法来执行 JavaScript 事件代码：</p>
+                        <ul>
+                            <li>HTML 事件属性可以直接执行 JavaScript 代码</li>
+                            <li>HTML 事件属性可以调用 JavaScript 函数</li>
+                            <li>可以为 HTML 元素指定自己的事件处理程序</li>
+                            <li>可以阻止事件的发生</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+
+            <div class="article-footer">
+                <div class="tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">事件</span>
+                    <span class="tag">HTML</span>
+                </div>
+                <div class="share-buttons">
+                    <button class="share-button">分享文章</button>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于博客</h3>
+                <p>分享AI技术知识，探讨前沿科技发展</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="articles.html">所有文章</a></li>
+                    <li><a href="about.html">关于我</a></li>
+                    <li><a href="contact.html">联系方式</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 我的博客. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            themeToggle.innerHTML = savedTheme === 'dark-theme' ? 
+                '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+
+        // 主题切换事件
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', isDark ? 'dark-theme' : '');
+        });
+
+        // 添加滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.article-content > *').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+    <style>
+        /* 添加新的样式 */
+        .page-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary-color);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: #357abd;
+            transform: translateY(-5px);
+        }
+
+        .page-transition {
+            animation: fadeOut 0.5s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .animate {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .code-block {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .code-block:hover .copy-button {
+            opacity: 1;
+        }
+
+        .run-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .run-button:hover {
+            background: #45a049;
+        }
+
+        .demo-output {
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--card-bg);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .demo-error {
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffebee;
+            color: #f44336;
+            border-radius: 4px;
+            border: 1px solid #f44336;
+        }
+
+        .table-of-contents {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .table-of-contents h4 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .table-of-contents li {
+            margin: 10px 0;
+        }
+
+        .table-of-contents a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .table-of-contents a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .table-of-contents a.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

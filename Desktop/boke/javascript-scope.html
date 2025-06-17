@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript作用域注意点 - 我的博客</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: #fff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #fff;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            top: 15px;
+            padding: 6px 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .theme-toggle:hover {
+            background: #357abd;
+        }
+
+        .article-detail {
+            margin-top: 80px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">我的博客</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="articles.html">文章</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="contact.html">联系</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="切换主题">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <main>
+        <article class="article-detail">
+            <div class="article-header">
+                <h1>JavaScript作用域注意点</h1>
+                <div class="article-meta">
+                    <span class="date">2024-03-20</span>
+                    <span class="category">JavaScript</span>
+                    <span class="read-time">阅读时间：5分钟</span>
+                </div>
+            </div>
+
+            <div class="article-content">
+                <p class="article-intro">
+                    在 JavaScript 中，函数内部的局部变量通常不可以直接被外部作用域访问，但有几种方式可以将函数内的局部变量暴露给外部作用域。
+                </p>
+
+                <section class="content-section">
+                    <h2>1. 通过全局对象</h2>
+                    <p>在函数内部，可以通过将局部变量赋值给 window 对象的属性来使其成为全局可访问的。</p>
+                    <div class="code-block">
+                        <pre><code>function example() {
+    var a = 10;
+    window.a = a;  // 使变量a全局可访问
+}
+example();
+console.log(window.a);  // 输出: 10</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>2. 定义全局变量</h2>
+                    <p>在函数内部不使用 var、let 或 const 等关键字声明变量时，该变量会被视为全局变量。</p>
+                    <div class="code-block">
+                        <pre><code>function example() {
+    a = 10;  // 不使用关键字声明，成为全局变量
+}
+example();
+console.log(a);  // 输出: 10</code></pre>
+                    </div>
+                    <div class="note">
+                        <p>注意：这种做法通常不推荐，因为它可能导致意外的副作用和代码难以维护。</p>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>3. 返回值</h2>
+                    <p>通过 return 语句返回局部变量的值，在函数外部接收这个返回值。</p>
+                    <div class="code-block">
+                        <pre><code>function example() {
+    var a = 10;
+    return a;
+}
+var result = example();
+console.log(result);  // 输出: 10</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>4. 闭包</h2>
+                    <p>JavaScript 中的闭包特性允许内部函数访问外部函数的局部变量。</p>
+                    <div class="code-block">
+                        <pre><code>function outer() {
+    var a = 10;
+    return function() {
+        return a;
+    };
+}
+var getA = outer();
+console.log(getA());  // 输出: 10</code></pre>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <h2>5. 属性和方法</h2>
+                    <p>定义在全局作用域中的变量和函数都会变成 window 对象的属性和方法。</p>
+                    <div class="code-block">
+                        <pre><code>var globalVar = 10;
+function globalFunc() {
+    return globalVar;
+}
+console.log(window.globalVar);  // 输出: 10
+console.log(window.globalFunc());  // 输出: 10</code></pre>
+                    </div>
+                </section>
+            </div>
+
+            <div class="article-footer">
+                <div class="tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">作用域</span>
+                    <span class="tag">闭包</span>
+                </div>
+                <div class="share-buttons">
+                    <button class="share-button">分享文章</button>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于博客</h3>
+                <p>分享AI技术知识，探讨前沿科技发展</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="articles.html">所有文章</a></li>
+                    <li><a href="about.html">关于我</a></li>
+                    <li><a href="contact.html">联系方式</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 我的博客. 保留所有权利.</p>
+        </div>
+    </footer>
+</body>
+</html> 

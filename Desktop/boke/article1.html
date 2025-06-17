@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智能的未来发展 - 我的博客</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --text-color: #333;
+            --bg-color: #fff;
+            --card-bg: #fff;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --gradient: linear-gradient(135deg, #4a90e2, #2c3e50);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #64b5f6;
+            --text-color: #e0e0e0;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --shadow: 0 2px 10px rgba(0,0,0,0.3);
+            --gradient: linear-gradient(135deg, #2c3e50, #1a1a1a);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            margin-top: 80px;
+        }
+
+        .article-header {
+            background: var(--gradient);
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+                        linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%);
+            background-size: 60px 60px;
+            opacity: 0.1;
+        }
+
+        .article-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .article-meta {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(74, 144, 226, 0.1);
+        }
+
+        .article-content h2 {
+            color: var(--primary-color);
+            margin: 40px 0 20px;
+            font-size: 2rem;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .article-content h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .article-content h3 {
+            color: var(--primary-color);
+            margin: 30px 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.8rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+        }
+
+        .article-content ul, 
+        .article-content ol {
+            margin: 1.8rem 0;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            right: 30px;
+            top: 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .theme-toggle::before {
+            content: '🌙';
+            font-size: 1.2rem;
+        }
+
+        [data-theme="dark"] .theme-toggle::before {
+            content: '☀️';
+        }
+
+        .back-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 12px 25px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(74, 144, 226, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .article-content {
+                max-width: 800px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+                padding: 6px 12px;
+            }
+
+            .theme-toggle {
+                right: 20px;
+                top: 20px;
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .article-header {
+                padding: 60px 0 40px;
+            }
+
+            .article-header h1 {
+                font-size: 2rem;
+            }
+
+            .article-content {
+                padding: 25px;
+            }
+
+            .article-content h2 {
+                font-size: 1.6rem;
+            }
+
+            .article-content h3 {
+                font-size: 1.3rem;
+            }
+
+            .article-content p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-header {
+                padding: 30px 0;
+            }
+
+            .article-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .article-meta {
+                font-size: 0.85rem;
+            }
+
+            .article-content {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            .article-content h2 {
+                font-size: 1.4rem;
+            }
+
+            .article-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .article-content p {
+                margin-bottom: 1rem;
+            }
+
+            .article-content img {
+                margin: 1.2rem 0;
+            }
+
+            .article-content blockquote {
+                margin: 1.2rem 0;
+                padding: 0.8rem;
+            }
+
+            .article-content ul, 
+            .article-content ol {
+                margin: 1rem 0;
+                padding-left: 1.2rem;
+            }
+
+            .article-content li {
+                margin-bottom: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">我的博客</a>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="article1.html" class="active">AI发展</a>
+                <a href="article2.html">Web开发</a>
+                <a href="article3.html">技术趋势</a>
+            </div>
+        </div>
+    </nav>
+
+    <button class="theme-toggle" onclick="toggleTheme()">切换主题</button>
+    
+    <div class="container">
+        <header class="article-header">
+            <h1>人工智能的未来发展</h1>
+            <div class="article-meta">
+                作者：张三 | 发布时间：2024-03-20 | 阅读时间：10分钟
+            </div>
+        </header>
+
+        <article class="article-content">
+            <a href="index.html" class="back-button">返回首页</a>
+            
+            <h2>引言</h2>
+            <p>人工智能（AI）正在以前所未有的速度发展，它正在改变我们的生活方式和工作方式。本文将探讨AI的未来发展趋势，以及它可能带来的影响。</p>
+
+            <h2>当前AI发展现状</h2>
+            <p>目前，AI已经在多个领域取得了显著进展：</p>
+            <ul>
+                <li>自然语言处理：GPT等大型语言模型的出现</li>
+                <li>计算机视觉：图像识别和视频分析技术</li>
+                <li>机器学习：深度学习算法的突破</li>
+                <li>机器人技术：自动化系统的广泛应用</li>
+            </ul>
+
+            <h2>未来发展趋势</h2>
+            <h3>1. 更智能的AI系统</h3>
+            <p>未来的AI系统将具备更强的学习能力和适应性，能够更好地理解和处理复杂任务。</p>
+
+            <h3>2. 人机协作</h3>
+            <p>AI将更多地作为人类的助手，帮助人们提高工作效率和创造力。</p>
+
+            <blockquote>
+                "AI不是要取代人类，而是要增强人类的能力。"
+            </blockquote>
+
+            <h3>3. 伦理与监管</h3>
+            <p>随着AI技术的发展，相关的伦理问题和监管框架也将变得越来越重要。</p>
+
+            <h2>结论</h2>
+            <p>AI的未来充满无限可能，我们需要在技术发展的同时，也要关注其对社会的影响，确保AI的发展方向符合人类的共同利益。</p>
+        </article>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+    </script>
+</body>
+</html> 
